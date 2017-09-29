@@ -1,0 +1,83 @@
+#!/usr/bin/python3.6
+"""
+Goals for CLI:
+- can pass in key as argv (python3 playfair PLAYFAIRKEY)
+- can pass in -d for decrypt, will encrypt by default.
+
+if "python3 playfair.py mysupersecretkey -d"
+then sys.argv = ['playfair.py', 'mysupersecretkey', '-d']
+
+- once program runs, it asks for input of plaintext or ciphertext.
+
+eventually -- want a verbose mode that shows the steps of encryptions
+"""
+import playfair, sys
+
+encrypt = True
+key = 'BATMANANDROBIN'
+file_name = ''
+verbose = False
+
+def parse_args():
+    global key, encrypt, file_name, verbose
+
+    if '-h' in sys.argv:
+        exit(
+        ''' usage: ./cli.py [flag][neccesary flag string]
+        all flags:
+        -d : will decrypt with the playfair cipher otherwise it will encrypt by default
+        -f : indicates that the following string is the name of the file to encrypt
+        -k : indicates that the following string is the key for the playfair cipher (If no key is entered the key will set to 'BATMANANDROBIN' by default)
+        -h : will print this to tell you how the program works
+        -m : indicates that the following string is the plaintext or ciphertext
+        -v : will use a verbose mose showing the encryption proccess step by step
+        the verbose mode will not work on files.
+        '''
+        )
+    if '-k' in sys.argv:
+        key = sys.argv[sys.argv.index('-k') + 1].upper()
+
+    encrypt = not '-d' in sys.argv
+
+    if '-f' in sys.argv:
+        file_name = sys.argv[sys.argv.index('-f') + 1].upper()
+
+    if '-v' in sys.argv:
+        if not file_name:
+            verbose = True
+
+def translate_file():
+    import os
+    if not os.path.exists(file_name):
+        new_file_name = input('the file you want to encrypt does not exist, enter a new filename\n> ')
+        return (translate_file(new_file_name, key))
+    with open('ctf.txt', 'w') as ctf:
+        with open(file_name, 'r') as ptf:
+            if encrypt:
+                ctf.write(playfair.encrypt_message(ptf.read(), key))
+            else:
+                ctf.write(playfair.decrypt_message(ptf.read(), key))
+
+def encrypt_or_decrypt():
+    if encrypt:
+        text_type = 'plaintext'
+        func = playfair.encrypt_message
+    else:
+        text_type = 'ciphertext'
+        func = playfair.decrypt_message
+    message = input(f'enter your {text_type}\n> ')
+    if message == '':
+        exit()
+    print(func(message, key, verbose))
+    print()
+
+def main():
+    parse_args()
+    if file_name:
+        translate_file()
+    else:
+        while True:
+            encrypt_or_decrypt()
+
+if __name__ == '__main__':
+    main()
