@@ -58,9 +58,13 @@ def translate_file():
     with open('ctf.txt', 'w') as ctf:
         with open(file_name, 'r') as ptf:
             if encrypt:
-                ctf.write(playfair.encrypt_message(ptf.read(), key))
+                transformed = playfair.encrypt_message(ptf.read(), key)
             else:
-                ctf.write(playfair.decrypt_message(ptf.read(), key))
+                transformed = playfair.decrypt_message(ptf.read(), key)
+            while transformed:
+                ctf.write(transformed[0:80] + '\n')
+                transformed = transformed[80:]
+            print('encrypted to file ctf.txt')
 
 def encrypt_or_decrypt():
     if encrypt:
