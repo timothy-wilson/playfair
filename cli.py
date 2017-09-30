@@ -24,14 +24,15 @@ def parse_args():
 
     if '-h' in sys.argv:
         exit(
-        ''' usage: ./cli.py [flag][neccesary flag string]
+        ''' usage: ./cli.py [options]
+            example ./cli.py -k EVERYTHINGISAWESOME
         all flags:
         -d : will decrypt with the playfair cipher otherwise it will encrypt by default
         -f : indicates that the following string is the name of the file to encrypt
-        -k : indicates that the following string is the key for the playfair cipher (If no key is entered the key will set to 'BATMANANDROBIN' by default)
+        -k : indicates that the following string is the key for the playfair cipher (The default value is 'BATMANANDROBIN')
         -h : will print this to tell you how the program works
-        -m : indicates that the following string is the plaintext or ciphertext(If no message is enterd the program will ask to enter a message.)
-        -v : will use a verbose mose showing the encryption proccess step by step
+        -m : indicates that the following string is the plaintext or ciphertext (If no message is entered the program will ask to enter a message.)
+        -v : will use a verbose mode showing the encryption proccess step by step
         the verbose mode will not work on files.
         '''
         )
@@ -41,14 +42,13 @@ def parse_args():
     encrypt = not '-d' in sys.argv
 
     if '-f' in sys.argv:
-        file_name = sys.argv[sys.argv.index('-f') + 1].upper()
-
+        file_name = sys.argv[sys.argv.index('-f') + 1]
     if '-v' in sys.argv:
         if not file_name:
             verbose = True
 
     if '-m' in sys.argv:
-        message = sys.argv[sys.argv.index('-m') + 1].upper
+        message = sys.argv[sys.argv.index('-m') + 1].upper()
 
 def translate_file():
     import os
@@ -72,6 +72,7 @@ def encrypt_or_decrypt():
 
     if message:
         print(func(message, key, verbose))
+        exit()
     else:
         text = input(f'enter your {text_type}\n> ')
         if text == '':
