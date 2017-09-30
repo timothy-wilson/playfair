@@ -42,7 +42,7 @@ def make_pairs_simple(char_seq):
     for num in range(0, len(char_seq), 2):
         simple_pairs.append(char_seq[num] + char_seq[num + 1])
 
-    return simple_pairs
+    return [s.upper() for s in simple_pairs]
 
 def make_pairs_to_encrypt(char_seq):
     """ Given a sequence of characters, breaks it into pairs, two special cases:
@@ -125,11 +125,8 @@ def transform_pairs(pairs, grid, encrypt=True):
     """ Takes a list of pairs, and calls transform_pair on each """
     encrypted = []
     for p in pairs:
-        if encrypt:
-            encrypted.append(transform_pair(p, grid))
-        else:
-            encrypted.append(transform_pair(p, grid, False))
-    return ''.join(encrypted)
+        encrypted.append(transform_pair(p, grid, encrypt))
+    return encrypted
 
 import formatter
 
@@ -140,25 +137,31 @@ def encrypt_message(message, key, verbose = False):
     new_message = clean_plaintext(message)
     ready_to_encrypt = make_pairs_to_encrypt(new_message)
     grid = build_grid(key.upper())
+    pairs = transform_pairs(ready_to_encrypt, grid)
 
     if verbose:
         print(formatter.grid_formatter(grid))
         print(formatter.details(ready_to_encrypt))
+        print('\n')
+        print(formatter.details(pairs))
+        print('\n')
 
-    return transform_pairs(ready_to_encrypt, grid)
+    return ''.join(pairs)
 
 def decrypt_message(ciphertext, key, verbose = False):
     """ Takes an all-caps no-space ciphertext, returns an all-caps no-space plaintext. """
-    new_message = clean_plaintext(ciphertext)
-    ready_to_decrypt = make_pairs_simple(new_message)
     grid = build_grid(key.upper())
+    ready_to_decrypt = make_pairs_simple(ciphertext)
+    pairs = transform_pairs(ready_to_decrypt, grid, False)
 
     if verbose:
         print(formatter.grid_formatter(grid))
         print(formatter.details(ready_to_decrypt))
+        print('\n')
+        print(formatter.details(pairs))
+        print('\n')
 
-    return transform_pairs(ready_to_decrypt, grid, False)
-
+    return ''.join(pairs)
 
 if __name__ == '__main__':
     main()

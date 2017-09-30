@@ -78,7 +78,7 @@ def test_encrypt_pairs():
 
     result = playfair.transform_pairs(pairs, grid)
 
-    assert result == 'KLKAER'
+    assert result == ['KL','KA','ER']
 
 
 def test_encrypt_message():

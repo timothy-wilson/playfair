@@ -17,9 +17,10 @@ encrypt = True
 key = 'BATMANANDROBIN'
 file_name = ''
 verbose = False
+message = ''
 
 def parse_args():
-    global key, encrypt, file_name, verbose
+    global key, encrypt, file_name, verbose, message
 
     if '-h' in sys.argv:
         exit(
@@ -29,7 +30,7 @@ def parse_args():
         -f : indicates that the following string is the name of the file to encrypt
         -k : indicates that the following string is the key for the playfair cipher (If no key is entered the key will set to 'BATMANANDROBIN' by default)
         -h : will print this to tell you how the program works
-        -m : indicates that the following string is the plaintext or ciphertext
+        -m : indicates that the following string is the plaintext or ciphertext(If no message is enterd the program will ask to enter a message.)
         -v : will use a verbose mose showing the encryption proccess step by step
         the verbose mode will not work on files.
         '''
@@ -45,6 +46,9 @@ def parse_args():
     if '-v' in sys.argv:
         if not file_name:
             verbose = True
+
+    if '-m' in sys.argv:
+        message = sys.argv[sys.argv.index('-m') + 1].upper
 
 def translate_file():
     import os
@@ -65,11 +69,16 @@ def encrypt_or_decrypt():
     else:
         text_type = 'ciphertext'
         func = playfair.decrypt_message
-    message = input(f'enter your {text_type}\n> ')
-    if message == '':
-        exit()
-    print(func(message, key, verbose))
-    print()
+
+    if message:
+        print(func(message, key, verbose))
+    else:
+        text = input(f'enter your {text_type}\n> ')
+        if text == '':
+            exit()
+
+        print(func(text, key, verbose))
+        print()
 
 def main():
     parse_args()
