@@ -68,8 +68,9 @@ def encrypt_or_decrypt():
         print(func(message, key, verbose))
         exit()
     else:
-        text = input(f'enter your {text_type}\n> ')
-        if text == '':
+        try:
+            text = input(f'enter your {text_type}\n> ')
+        except KeyboardInterrupt:
             exit()
 
         print(func(text, key, verbose))
