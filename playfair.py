@@ -1,11 +1,4 @@
-def main():
-    message = 'playfair cipher!'
-    mode = 'encrypt'
-    key = 'KEY'
-    if mode == 'encrypt':
-        print(encrypt_message(message, key))
-    else:
-        print(decrypt_message(message, key))
+import formatter
 
 def clean_plaintext(plaintext):
     '''Removes spaces and punctuation, converts to upper case.'''
@@ -83,52 +76,27 @@ def find_cordinates(letter, grid):
                 if grid[i][j] == letter:
                     return i, j
 
-def same_column_transform(encrypt, grid, row1, column1, row2, column2):
+def next_index(encrypt, index):
     if encrypt:
         number = 1
         end = 4
     else:
         number = -1
         end = 0
+    return abs(end - 4) if index == end else index + number
 
-    if row1 == end:
-        first_letter_index = abs(end - 4)
-    else:
-        first_letter_index = row1 + number
-    if row2 == end:
-        second_letter_index = abs(end - 4)
-    else:
-        second_letter_index = row2 + number
+def same_column_transform(encrypt, grid, row1, column1, row2, column2):
 
-    return grid[first_letter_index][column1] + grid[second_letter_index][column2]
+    return grid[next_index(encrypt, row1)][column1] + grid[next_index(encrypt, row2)][column2]
 
 def same_row_tranform(encrypt, grid, row1, column1, row2, column2):
-    if encrypt:
-        number = 1
-        end = 4
-    else:
-        number = -1
-        end = 0
 
-    if column1 == end:
-        first_letter_index = abs(end - 4)
-    else:
-        first_letter_index = column1 + number
-    if column2 == end:
-        second_letter_index = abs(end - 4)
-    else:
-        second_letter_index = column2 + number
-
-    return grid[row1][first_letter_index] + grid[row2][second_letter_index]
+    return grid[row1][next_index(encrypt, column1)] + grid[row2][next_index(encrypt, column2)]
 
 def transform_pairs(pairs, grid, encrypt=True):
     """ Takes a list of pairs, and calls transform_pair on each """
-    encrypted = []
-    for p in pairs:
-        encrypted.append(transform_pair(p, grid, encrypt))
-    return encrypted
 
-import formatter
+    return [transform_pair(p, grid, encrypt) for p in pairs]
 
 def encrypt_message(message, key, verbose = False):
     """ Takes a message that may containt spaces, punctuation, and lowercase.
@@ -140,10 +108,10 @@ def encrypt_message(message, key, verbose = False):
     pairs = transform_pairs(ready_to_encrypt, grid)
 
     if verbose:
-        print(formatter.grid_formatter(grid))
-        print(formatter.details(ready_to_encrypt))
+        print(formatter.format_grid(grid))
+        print(formatter.format_pairs(ready_to_encrypt))
         print('\n')
-        print(formatter.details(pairs))
+        print(formatter.format_pairs(pairs))
         print('\n')
 
     return ''.join(pairs)
@@ -155,13 +123,10 @@ def decrypt_message(ciphertext, key, verbose = False):
     pairs = transform_pairs(ready_to_decrypt, grid, False)
 
     if verbose:
-        print(formatter.grid_formatter(grid))
-        print(formatter.details(ready_to_decrypt))
+        print(formatter.format_grid(grid))
+        print(formatter.format_pairs(ready_to_decrypt))
         print('\n')
-        print(formatter.details(pairs))
+        print(formatter.format_pairs(pairs))
         print('\n')
 
     return ''.join(pairs)
-
-if __name__ == '__main__':
-    main()

@@ -1,17 +1,7 @@
 #!/usr/bin/python3.6
-"""
-Goals for CLI:
-- can pass in key as argv (python3 playfair PLAYFAIRKEY)
-- can pass in -d for decrypt, will encrypt by default.
+import os, sys
 
-if "python3 playfair.py mysupersecretkey -d"
-then sys.argv = ['playfair.py', 'mysupersecretkey', '-d']
-
-- once program runs, it asks for input of plaintext or ciphertext.
-
-eventually -- want a verbose mode that shows the steps of encryptions
-"""
-import playfair, sys
+import playfair
 
 encrypt = True
 key = 'BATMANANDROBIN'
@@ -23,19 +13,20 @@ def parse_args():
     global key, encrypt, file_name, verbose, message
 
     if '-h' in sys.argv:
-        exit(
-        ''' usage: ./cli.py [options]
-            example ./cli.py -k EVERYTHINGISAWESOME
-        all flags:
-        -d : will decrypt with the playfair cipher otherwise it will encrypt by default
-        -f : indicates that the following string is the name of the file to encrypt
-        -k : indicates that the following string is the key for the playfair cipher (The default value is 'BATMANANDROBIN')
-        -h : will print this to tell you how the program works
-        -m : indicates that the following string is the plaintext or ciphertext (If no message is entered the program will ask to enter a message.)
-        -v : will use a verbose mode showing the encryption proccess step by step
-        the verbose mode will not work on files.
-        '''
-        )
+        exit('''
+usage: ./cli.py [options]
+example ./cli.py -k EVERYTHINGISAWESOME
+all flags:
+-d : will decrypt with the playfair cipher; it will encrypt by default
+-f : indicates that the following string is the name of the file to encrypt
+-k : indicates that the following string is the key for the playfair cipher
+     The default value is 'BATMANANDROBIN'
+-h : help text
+-m : indicates that the following string is the plaintext or ciphertext
+     If no message is entered the program will ask to enter a message.
+-v : will use a verbose mode showing the encryption proccess step by step;
+     the verbose mode will not work on files.
+''')
     if '-k' in sys.argv:
         key = sys.argv[sys.argv.index('-k') + 1].upper()
 
@@ -51,7 +42,6 @@ def parse_args():
         message = sys.argv[sys.argv.index('-m') + 1].upper()
 
 def translate_file():
-    import os
     if not os.path.exists(file_name):
         new_file_name = input('the file you want to encrypt does not exist, enter a new filename\n> ')
         return (translate_file(new_file_name, key))
