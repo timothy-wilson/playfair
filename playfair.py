@@ -33,6 +33,8 @@ def make_pairs_simple(char_seq):
     """ Breaks a message into pairs of characters """
     simple_pairs = []
     for num in range(0, len(char_seq), 2):
+        if char_seq[-1] == char_seq[num]:
+            exit('That is an invalid ciphertext')
         simple_pairs.append(char_seq[num] + char_seq[num + 1])
 
     return [s.upper() for s in simple_pairs]
@@ -96,7 +98,9 @@ def same_row_tranform(encrypt, grid, row1, column1, row2, column2):
 def transform_pairs(pairs, grid, encrypt=True):
     """ Takes a list of pairs, and calls transform_pair on each """
 
+
     return [transform_pair(p, grid, encrypt) for p in pairs]
+
 
 def encrypt_message(message, key, verbose = False):
     """ Takes a message that may containt spaces, punctuation, and lowercase.
@@ -116,10 +120,18 @@ def encrypt_message(message, key, verbose = False):
 
     return ''.join(pairs)
 
+
+def decrypt_check(pairs):
+    for p in pairs:
+        if p[0] == p[1]:
+            exit('that is an invalid ciphertext.')
+
+
 def decrypt_message(ciphertext, key, verbose = False):
     """ Takes an all-caps no-space ciphertext, returns an all-caps no-space plaintext. """
     grid = build_grid(key.upper())
     ready_to_decrypt = make_pairs_simple(ciphertext)
+    decrypt_check()
     pairs = transform_pairs(ready_to_decrypt, grid, False)
 
     if verbose:

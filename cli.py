@@ -28,18 +28,29 @@ all flags:
      the verbose mode will not work on files.
 ''')
     if '-k' in sys.argv:
-        key = sys.argv[sys.argv.index('-k') + 1].upper()
+        if sys.argv[-1] == '-k':
+            exit("you need to pass in some text after '-k'")
+        else:
+            key = ''.join(sys.argv[sys.argv.index('-k') + 1].upper())
 
     encrypt = not '-d' in sys.argv
 
     if '-f' in sys.argv:
+        if sys.argv[-1] == '-f':
+            exit("you need to pass in a file name after '-f'")
         file_name = sys.argv[sys.argv.index('-f') + 1]
+
     if '-v' in sys.argv:
         if not file_name:
             verbose = True
 
     if '-m' in sys.argv:
-        message = sys.argv[sys.argv.index('-m') + 1].upper()
+        if sys.argv[-1] == '-m':
+                exit("you need to pass in some text after '-m'")
+        else:
+            for i in range(sys.argv.index('-m') + 1, len(sys.argv)):
+                if not sys.argv[i].startswith('-'):
+                    message += sys.argv[i]
 
 def translate_file():
     if not os.path.exists(file_name):
@@ -57,6 +68,7 @@ def translate_file():
             print('encrypted to file ctf.txt')
 
 def encrypt_or_decrypt():
+    global message
     if encrypt:
         text_type = 'plaintext'
         func = playfair.encrypt_message
@@ -66,15 +78,14 @@ def encrypt_or_decrypt():
 
     if message:
         print(func(message, key, verbose))
+        message = ''
+    try:
+        text = input(f'enter your {text_type}\n> ')
+    except KeyboardInterrupt:
         exit()
-    else:
-        try:
-            text = input(f'enter your {text_type}\n> ')
-        except KeyboardInterrupt:
-            exit()
 
-        print(func(text, key, verbose))
-        print()
+    print(func(text, key, verbose))
+    print()
 
 def main():
     parse_args()
