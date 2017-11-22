@@ -1,6 +1,6 @@
 # Playfair Cipher
 
-Encrypts or decrypts using the Playfair cipher.
+Encrypts or decrypts using the [Playfair cipher](https://en.wikipedia.org/wiki/Playfair_cipher).
 
 Example use:
 
