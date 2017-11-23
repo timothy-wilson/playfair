@@ -10,7 +10,7 @@ grid = [
 
 def test_grid_formatter():
 
-    result = formatter.grid_formatter(grid)
+    result = formatter.format_grid(grid)
 
     assert result == '''
 P   L   A   Y   F
@@ -28,6 +28,6 @@ U   V   W   X   Z
 def test_details():
 
     message = ['TH','ED','RY','FI','SH','SW','IM','SA','LO','NE']
-    result = formatter.details(message)
+    result = formatter.format_pairs(message)
 
     assert result == 'TH ED RY FI SH SW IM SA LO NE'
