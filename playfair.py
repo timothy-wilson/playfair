@@ -123,15 +123,15 @@ def encrypt_message(message, key, verbose = False):
 
 def decrypt_check(pairs):
     for p in pairs:
-        print(p)
         if p[0] == p[1]:
             exit('that is an invalid ciphertext.')
 
 
 def decrypt_message(ciphertext, key, verbose = False):
     """ Takes an all-caps no-space ciphertext, returns an all-caps no-space plaintext. """
+    clean_ciphertext = clean_plaintext(ciphertext)
     grid = build_grid(key.upper())
-    ready_to_decrypt = make_pairs_simple(ciphertext)
+    ready_to_decrypt = make_pairs_simple(clean_ciphertext)
     decrypt_check(ready_to_decrypt)
     pairs = transform_pairs(ready_to_decrypt, grid, False)
 

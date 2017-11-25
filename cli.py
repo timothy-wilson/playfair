@@ -55,8 +55,9 @@ all flags:
 def translate_file():
     if not os.path.exists(file_name):
         new_file_name = input('the file you want to encrypt does not exist, enter a new filename\n> ')
-        return (translate_file(new_file_name, key))
-    with open('ctf.txt', 'w') as ctf:
+        return translate_file(new_file_name, key)
+    output_fn = input('What would you like your encrypted or decrypted file to be named.\n>')
+    with open(output_fn, 'w') as ctf:
         with open(file_name, 'r') as ptf:
             if encrypt:
                 transformed = playfair.encrypt_message(ptf.read(), key)
@@ -65,7 +66,7 @@ def translate_file():
             while transformed:
                 ctf.write(transformed[0:80] + '\n')
                 transformed = transformed[80:]
-            print('encrypted to file ctf.txt')
+            print(f'encrypted to file {output_fn}')
 
 def encrypt_or_decrypt():
     global message
