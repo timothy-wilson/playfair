@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<h3><strong>Make sure your key is easy remember!</strong></h3><br>
+<form method="post">
+  <input class="key" type="text" name="key" placeholder="Key"/><br><br>
+  <p>If you do not enter a key it will be batman and robin by default</p><br>
+  <textarea rows="5" cols="30" name="inputtext" placeholder="Input text"></textarea><br><br>
+  <label for="encrypt">Encrypt</label><input id="encrypt" type="radio" name="direction" value="encrypt">
+  <label for="decrypt">Decrypt</label><input id="decrypt" type="radio" name="direction" value="decrypt"><br><br>
+  <input type="submit" name="encipher"><br><br>
+</form>
+
+{% if returntext %}
+<p>{{returntext}}</p>
+{% endif %}
+{% endblock %}

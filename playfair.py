@@ -1,5 +1,6 @@
 import formatter
 
+
 def clean_plaintext(plaintext):
     '''Removes spaces and punctuation, converts to upper case.'''
     cleaned = []
@@ -10,6 +11,7 @@ def clean_plaintext(plaintext):
                 ch = 'I'
             cleaned.append(ch)
     return cleaned
+
 
 def build_grid(key):
     '''Creates 5x5 Playfair grid from all-caps key.'''
@@ -29,6 +31,7 @@ def build_grid(key):
 
     return grid
 
+
 def make_pairs_simple(char_seq):
     """ Breaks a message into pairs of characters """
     if len(char_seq) % 2 == 1:
@@ -38,6 +41,7 @@ def make_pairs_simple(char_seq):
         simple_pairs.append(char_seq[num] + char_seq[num + 1])
 
     return [s.upper() for s in simple_pairs]
+
 
 def make_pairs_to_encrypt(char_seq):
     """ Given a sequence of characters, breaks it into pairs, two special cases:
@@ -58,18 +62,20 @@ def make_pairs_to_encrypt(char_seq):
 
     return ready_to_encrypt
 
+
 def transform_pair(pair, grid, encrypt=True):
     """ Takes a pair, and transforms them into a different pair, using grid.
     By default, encrypts, to reverse, pass in encrypt=False """
     row1, column1 = find_cordinates(pair[0], grid)
     row2, column2 = find_cordinates(pair[1], grid)
     if column1 == column2:
-        return(same_column_transform(encrypt, grid, row1, column1, row2, column2))
+        return same_column_transform(encrypt, grid, row1, column1, row2, column2)
     elif row1 == row2:
-        return(same_row_tranform(encrypt, grid, row1, column1, row2, column2))
+        return same_row_tranform(encrypt, grid, row1, column1, row2, column2)
     else:
 
         return grid[row1][column2] + grid[row2][column1]
+
 
 def find_cordinates(letter, grid):
     for i in range(5):
@@ -77,6 +83,7 @@ def find_cordinates(letter, grid):
             for j in range(5):
                 if grid[i][j] == letter:
                     return i, j
+
 
 def next_index(encrypt, index):
     if encrypt:
@@ -87,22 +94,23 @@ def next_index(encrypt, index):
         end = 0
     return abs(end - 4) if index == end else index + number
 
+
 def same_column_transform(encrypt, grid, row1, column1, row2, column2):
 
     return grid[next_index(encrypt, row1)][column1] + grid[next_index(encrypt, row2)][column2]
+
 
 def same_row_tranform(encrypt, grid, row1, column1, row2, column2):
 
     return grid[row1][next_index(encrypt, column1)] + grid[row2][next_index(encrypt, column2)]
 
+
 def transform_pairs(pairs, grid, encrypt=True):
     """ Takes a list of pairs, and calls transform_pair on each """
-
-
     return [transform_pair(p, grid, encrypt) for p in pairs]
 
 
-def encrypt_message(message, key, verbose = False):
+def encrypt_message(message, key, verbose=False):
     """ Takes a message that may containt spaces, punctuation, and lowercase.
 
     Strips non-alphabetical characters, and uppercases letters, then encrypts. """

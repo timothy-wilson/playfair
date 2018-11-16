@@ -1,0 +1,22 @@
+body{
+  background-color: hsla(50, 00%, 40%, 1);
+}
+
+h1{
+  color: gold;
+  font-family: georgia;
+}
+
+textarea{
+  background-color: hsla(60, 35%, 75%, 1);
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.key {
+  background-color: hsla(60, 35%, 75%, 1);
+  height: 30px;
+  width: 100px;
+  padding: 3px;
+  border-radius: 10px;
+  }

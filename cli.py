@@ -9,6 +9,7 @@ file_name = ''
 verbose = False
 message = ''
 
+
 def parse_args():
     global key, encrypt, file_name, verbose, message
 
@@ -52,6 +53,7 @@ all flags:
                 if not sys.argv[i].startswith('-'):
                     message += sys.argv[i]
 
+
 def translate_file():
     if not os.path.exists(file_name):
         new_file_name = input('the file you want to encrypt does not exist, enter a new filename\n> ')
@@ -67,6 +69,7 @@ def translate_file():
                 ctf.write(transformed[0:80] + '\n')
                 transformed = transformed[80:]
             print(f'encrypted to file {output_fn}')
+
 
 def encrypt_or_decrypt():
     global message
@@ -95,6 +98,7 @@ def main():
     else:
         while True:
             encrypt_or_decrypt()
+
 
 if __name__ == '__main__':
     main()
