@@ -21,12 +21,14 @@ def translater():
         direction = request.form.get('direction')
         if direction == 'encrypt':
             encrypted = playfair.encrypt_message(text, key)
-            message = f'You encrypted {text} with the key {key} and the result is {encrypted}'
-            return render_template('translater.html', returntext=message)
+            return render_template('translater.html', returntext=encrypted, mode=direction, key=key, inputtext=text)
         elif direction == 'decrypt':
             decrypted = playfair.decrypt_message(text, key)
-            message = f'You decrypted {text} with the key {key} and the plaintext was '
-            return render_template('translater.html', returntext=message+decrypted)
+            return render_template('translater.html', returntext=decrypted, mode=direction, key=key, inputtext=text)
         else:
-            message = 'You did not select encrypt or decrypt'
-            return render_template('translater.html', returntext=message)
+            return render_template('translater.html')
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html")

@@ -20,3 +20,18 @@ textarea{
   padding: 3px;
   border-radius: 10px;
   }
+
+td {
+  font-family: monospace;
+  font-size: 30px;
+  padding: 3px 8px;
+}
+
+grid {
+  display: grid
+  grid-areas = "paragraph" "tableandnotes" "tableandnotes" "footer"
+}
+
+.pgrid {
+  grid
+}

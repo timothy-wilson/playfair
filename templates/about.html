@@ -1,4 +1,54 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% block body %}
-
+  <h1>The Playfair Cipher</h1>
+  <p>The Playfair cipher was a battlefield cipher used by the british in world war 1.<br>Some of the other world war 1 ciphers are the following.</p>
+  <ul>
+      <li>the russians used a overcomplicated version of the <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher">vigenère</a> cipher(it was hacked within 3 days.)</li>
+      <li>the main french cryptography was the <a href="https://en.wikipedia.org/wiki/Tableau_de_Concordance">Tableau de Concordance.</a></li>
+      <li>the germans used the <a href="https://en.wikipedia.org/wiki/ADFGVX_cipher">ADFGX and the ADFGVX</a> cipher.</li>
+      <li>the US used native americans to talk in there native languages; they were sometimes called <a href="https://en.wikipedia.org/wiki/Code_talker">code talkers.</a></li>
+  </ul>
+  <h2>Operation</h2>
+<grid>
+   <p>The first step is to choose a key, for this example we are going to use the key <strong>BATMAN AND ROBIN</strong> the next step
+     is to take the spaces and duplicate letters out of the key. That would turn our key into <strong>BATMNDROI</strong>. Then you
+     would take the key and turn it into a 5x5 grid by putting the key in the grid first and then the alpha bet behind it(removing
+     any letters that are in the key. Also note that I and J are considered the same letter) the grid is below</p>
+   <table>
+       <tr>
+           <td>B</td>
+          <td>A</td>
+          <td>T</td>
+          <td>M</td>
+          <td>N</td>
+      </tr>
+      <tr>
+          <td>D</td>
+          <td>R</td>
+          <td>O</td>
+          <td>I</td>
+          <td>C</td>
+      </tr>
+      <tr>
+          <td>E</td>
+          <td>F</td>
+          <td>G</td>
+          <td>H</td>
+          <td>K</td>
+      </tr>
+      <tr>
+          <td>L</td>
+          <td>P</td>
+          <td>Q</td>
+          <td>S</td>
+          <td>U</td>
+      </tr><tr>
+          <td>V</td>
+          <td>W</td>
+          <td>X</td>
+          <td>Y</td>
+          <td>Z</td>
+      </tr>
+  </table>
+</grid>
 {% endblock %}
